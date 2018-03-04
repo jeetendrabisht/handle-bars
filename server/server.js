@@ -5,6 +5,7 @@ const fs = require('fs');
 
 const app = express();
 
+const port = process.env.PORT || 3000;
 app.set('views', '../views');
 
 hbs.registerPartials('../views/partials');
@@ -55,9 +56,9 @@ app.get('/about',function(req, res) {
   });
 });
 
-app.listen(3000, function (err) {
+app.listen(port, function (err) {
   if(err) {
     console.log("Error While Connecting :: ", err);
   }
-  console.log("Server listening at port 3000");
+  console.log("Server listening at ",port);
 });
