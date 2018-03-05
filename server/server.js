@@ -6,35 +6,35 @@ const fs = require('fs');
 const app = express();
 
 const port = process.env.PORT || 3000;
-app.set('views', '../views');
+app.set('views', 'views');
 
-hbs.registerPartials('../views/partials');
+hbs.registerPartials('views/partials');
 
-app.use((req, res, next) => {
+app.use(function (req, res, next) {
   var now = new Date().toString();
-  var log = `${now} :: ${req.method} :: ${req.url}`;
-  fs.appendFile('server.log',`${log} \n`,(err) => {
+  var log = now+" :: "+req.method+" :: "+req.url;
+  fs.appendFile('server.log',(log,'\n'),function (err) {
     if(err) {
       console.log('Error while logging file');
     }
-    console.log(`${now} :: ${req.method} :: ${req.url}`);
+    console.log(now+" :: "+req.method+" :: "+req.url);
     next();
   });
 });
 
-// app.use((req, res, next) => {
+// app.use(function (req, res, next) {
 //   res.render('maintenance.hbs',{
 //     'message' : 'Website is in maintenance phase...'
 //   });
 // });
 
-app.use(express.static('../public'));
+app.use(express.static('public'));
 
-hbs.registerHelper('getCurrentYear',() => {
+hbs.registerHelper('getCurrentYear',function () {
   return new Date().getFullYear();
 });
 
-hbs.registerHelper('fullCase',(text) => {
+hbs.registerHelper('fullCase',function (text) {
   return text.toUpperCase();
 });
 
